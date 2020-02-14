@@ -7,24 +7,24 @@ provider "azurerm" {
 }
 
 data "azurerm_resource_group" "rg" {
-  name = "tf-ref-${var.environment}-rg"
+  name = "RG-Fan2020-${var.environment}"
 }
 
 data "azurerm_subnet" "aks" {
-  name                 = "aks-subnet"
-  virtual_network_name = "aks-vnet"
+  name                 = "Subnet-AKS-cluster"
+  virtual_network_name = "VNet-AKS-cluster"
   resource_group_name  = data.azurerm_resource_group.rg.name
 }
 
 resource "azurerm_kubernetes_cluster" "aks" {
-  name                = "tf-ref-${var.environment}-aks"
+  name                = "aks-fan2020-${var.environment}-01"
   location            = data.azurerm_resource_group.rg.location
   resource_group_name = data.azurerm_resource_group.rg.name
-  dns_prefix          = "tf-ref-${var.environment}-aks"
+  dns_prefix          = "fanproject"
   kubernetes_version  = var.kubernetes_version
 
   linux_profile {
-    admin_username = "azureuser"
+    admin_username = "elecview"
     ssh_key {
       key_data = var.ssh_public_key
     }
